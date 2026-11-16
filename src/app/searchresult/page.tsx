@@ -1,5 +1,4 @@
 import { getPages } from "../data/pages"; // パスを修正
-import { notFound } from "next/navigation";
 
 // pages.tsで定義してる型を使う（仮にPage型って名前にする）
 type Page = {
@@ -8,13 +7,14 @@ type Page = {
 };
 
 type SearchResultProps = {
-  searchParams: {
+  // Next.js 15 では searchParams が Promise になった
+  searchParams: Promise<{
     keyword?: string;
-  };
+  }>;
 };
 
-export default function SearchResultPage({ searchParams }: SearchResultProps) {
-  const keyword = searchParams.keyword || "";
+export default async function SearchResultPage({ searchParams }: SearchResultProps) {
+  const { keyword = "" } = await searchParams;
 
   const allPages: Page[] = getPages(); // 明示的に型をつける
   const matchedPages = allPages.filter((page: Page) =>

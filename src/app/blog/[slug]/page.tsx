@@ -2,7 +2,6 @@
 
 // ▼ 修正点①: パスをエイリアスに戻す
 import { getInstagramFeed, getInstagramPost } from '@/lib/instagram'; 
-import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { notFound } from 'next/navigation';
@@ -19,8 +18,10 @@ export async function generateStaticParams() {
 }
 
 // generateMetadataで受け取るパラメータ名を 'slug' に合わせる
-export async function generateMetadata({ params }: { params: { slug: string } }) { // ▼ 修正点③
-  const post = await getInstagramPost(params.slug); // ▼ 修正点③
+// Next.js 15 では params が Promise になったため await して取り出す
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getInstagramPost(slug);
   if (!post) {
     return { title: '投稿が見つかりません' };
   }
@@ -32,8 +33,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 // ページの本体で受け取るパラメータ名も 'slug' に合わせる
-export default async function BlogPostPage({ params }: { params: { slug: string } }) { // ▼ 修正点④
-  const post = await getInstagramPost(params.slug); // ▼ 修正点④
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getInstagramPost(slug);
 
   if (!post) {
     notFound();

@@ -1,5 +1,5 @@
 // app/members/page.tsx
-import MemberCard from "@/app/components/MemberCard";
+import MemberCard from "@/components/MemberCard";
 
 const dummyMembers = {
   staff: [
