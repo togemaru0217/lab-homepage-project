@@ -79,7 +79,7 @@ export default function PageLayout({
         // トップページだけ本文下に3つのリンク画像 (変更なし)
         <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           <LinkCard href="/research" title="研究内容" />
-          <LinkCard href="/about" title="研究室紹介" />
+          <LinkCard href="/lab-introduce" title="研究室紹介" />
           <LinkCard href="/contact" title="連絡先" />
         </div>
       )}
